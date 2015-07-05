@@ -1,0 +1,35 @@
+<package>
+  <description brief="data_extraction">
+
+     A data extraction tool has been created to extract information from ROS "bag" files and convert them into more user-friendly comman-separated-value (CSV) files for use in Excel / Matlab / etc.
+
+     The tool is written in the form of a ROS package "data_extract". Thus far, the data extraction tool is compatible with the following ROS message types: 
+     * sensor_msgs/Image 
+     * sensor_msgs/Imu 
+     * sensor_msgs/LaserScan 
+     * sensor_msgs/NavSatFix 
+     * gps_common/gpsVel 
+     * umrr_driver/radar_msg
+
+     1.) Extract all compatible topics in a bag file
+	  rosrun data_extract extract_all.py -b path_to_bag_file -o path_to_output_dir
+     2.) Extract a single topic    
+	  rosrun data_extraction extract_topic.py -b path_to_bag_file -o path_to_output_csv_file -t topic_name
+    
+      The extraction tool will only extract topics of the types listed above.
+      
+     Version 1.0 - Shane Lynn - 7th May 2012
+  </description>
+  <author>Shane Lynn</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/data_extraction</url>
+  
+  <depend package="rosbag"/>
+  <depend package="roscpp"/>
+  <depend package="rospy"/>
+  <depend package="cv_bridge"/>
+
+</package>
+
+
