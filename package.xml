@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<package>
+  <name>ros_csv_extraction</name>
+  <version>1.5.0</version>
+  <description>
+     A data extraction tool has been created to extract information from ROS "bag" files and convert them into more user-friendly comman-separated-value (CSV) files for use in Excel / Matlab / etc.
+
+     The tool is written in the form of a ROS package "data_extract". Thus far, the data extraction tool is compatible with the following ROS message types:
+     * sensor_msgs/Image
+     * sensor_msgs/Imu
+     * sensor_msgs/LaserScan
+     * sensor_msgs/NavSatFix
+     * sensor_msgs/NavSatFix
+     * gps_common/gpsVel
+     * umrr_driver/radar_msg
+     * nav_msgs/Odometry
+
+     1.) Extract all compatible topics in a bag file
+    rosrun data_extract extract_all.py -b path_to_bag_file -o path_to_output_dir
+     2.) Extract a single topic
+    rosrun data_extraction extract_topic.py -b path_to_bag_file -o path_to_output_csv_file -t topic_name
+
+      The extraction tool will only extract topics of the types listed above.
+
+     Version 1.0 - Shane Lynn - 7th May 2012
+     Version 1.1 - Laki Dantanarayana - 31th July 2012, New Topic added
+     Version 1.2 - Gibson Hu - 2012, Changed image file structure, automatic folder creation.
+     Version 1.3 - Laki Dantanarayana, ROS Indigo support
+   </description>
+
+  <!-- One maintainer tag required, multiple allowed, one person per tag -->
+  <!-- Example:  -->
+  <!-- <maintainer email="jane.doe@example.com">Jane Doe</maintainer> -->
+  <maintainer email="todo@todo.todo">Shane Lynn</maintainer>
+
+
+  <!-- One license tag required, multiple allowed, one license per tag -->
+  <!-- Commonly used license strings: -->
+  <!--   BSD, MIT, Boost Software License, GPLv2, GPLv3, LGPLv2.1, LGPLv3 -->
+  <license>BSD</license>
+
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>opencv2</build_depend>
+  <build_depend>rosbag</build_depend>
+  <build_depend>cv_bridge</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>nav_msgs</build_depend>
+
+  <run_depend>rospy</run_depend>
+  <run_depend>opencv2</run_depend>
+  <run_depend>rosbag</run_depend>
+  <run_depend>cv_bridge</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+  <run_depend>geometry_msgs</run_depend>
+  <run_depend>nav_msgs</run_depend>
+  <!-- The export tag contains other, unspecified, tags -->
+  <export>
+    <!-- Other tools can request additional information be placed here -->
+
+  </export>
+</package>

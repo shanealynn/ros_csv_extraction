@@ -22,7 +22,7 @@ To install the data extraction tool, download the zip file, extract it somewhere
 
 # Usage
  * Extract all compatible topics in a bag file:
- 
+
 `rosrun data_extract extract_all.py -b <path_to_bag_file> -o <path_to_output_dir>`
 
  * Extract a single topic:

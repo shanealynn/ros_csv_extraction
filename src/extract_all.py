@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import roslib
-roslib.load_manifest('data_extraction')
 import rospy
 import rosbag
 import os 		#used to get directory for image topics
@@ -37,6 +36,7 @@ allowedTopics = ['sensor_msgs/Image', 'sensor_msgs/Imu', 'sensor_msgs/LaserScan'
 			'gps_common/GPSFix', 'umrr_driver/radar_msg' , 'nav_msgs/Odometry' , 'geometry_msgs/PoseWithCovarianceStamped']
 
 def main():
+	rospy.init_node('extract_all', log_level=rospy.DEBUG)
 	rospy.loginfo("Processing input arguments:")
 	try:
 		opts, extraparams = getopt.getopt(sys.argv[1:], "o:b:t:") #start at the second argument.
@@ -92,7 +92,7 @@ def main():
 			rospy.loginfo("----------------------- Starting TOPIC_EXTRACT.PY for %s --------------------------"%topicName)
 			fileName =  topicName.replace("/", "-")
 			fileName=fileName[1:]
-			commandLine = "rosrun data_extraction extract_topic.py -b " + rosbagFile + " -o " + outDir + "/" + fileName + ".csv" + " -t " + topicName
+			commandLine = "rosrun ros_csv_extraction extract_topic.py -b " + rosbagFile + " -o " + outDir + "/" + fileName + ".csv" + " -t " + topicName
 			os.system(commandLine)
 			rospy.loginfo("----------------------- Finished TOPIC_EXTRACT.PY for %s --------------------------"%topicName)
 		else:
