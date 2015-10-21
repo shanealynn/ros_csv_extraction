@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
-import roslib 
-roslib.load_manifest('data_extraction')
+import roslib
 import rospy
 import rosbag
 import os 		#used to get directory for image topics
@@ -26,15 +25,18 @@ def usage():
  	print "                   - sensor_msgs/NavSatFix "
  	print "                   - gps_common/gpsVel  "
  	print "                   - umrr_driver/radar_msg  "
+ 	print "                   - nav_msgs/Odometry      *"
  	print ""
  	print "  Rosbag Extraction Script v1 - Shane Lynn - 7th May 2012"
+ 	print "                        v1.01 - *Modified by Lakshitha Dantanarayana - 31th July 2012 "
  	print ""
  	print " ---------------------------------------------------------------------------------------------"
 
 allowedTopics = ['sensor_msgs/Image', 'sensor_msgs/Imu', 'sensor_msgs/LaserScan', 'sensor_msgs/NavSatFix', \
-			'gps_common/GPSFix', 'umrr_driver/radar_msg']	
+			'gps_common/GPSFix', 'umrr_driver/radar_msg' , 'nav_msgs/Odometry' , 'geometry_msgs/PoseWithCovarianceStamped']
 
 def main():
+	rospy.init_node('extract_all', log_level=rospy.DEBUG)
 	rospy.loginfo("Processing input arguments:")
 	try:
 		opts, extraparams = getopt.getopt(sys.argv[1:], "o:b:t:") #start at the second argument.
@@ -43,11 +45,11 @@ def main():
 		print str(err)
 		usage()
 		sys.exit(2)
-	
+
 	#default values
 	outDir = "output"
-	rosbagFile = "bagfile.bag"	
-	
+	rosbagFile = "bagfile.bag"
+
 	for o,a in opts:
 		if o == "-o":
 			outDir = a
@@ -56,7 +58,8 @@ def main():
 		else:
 			assert False, "unhandled option"
 			usage()
-			
+	if not os.path.exists(outDir):
+		os.makedirs(outDir)
 	rospy.loginfo("Opening bag file: " + rosbagFile)
 	try:
 		bag = rosbag.Bag(rosbagFile)
@@ -64,38 +67,39 @@ def main():
 		rospy.logerr("Error opening specified bag file : %s"%rosbagFile)
 		usage()
 		sys.exit(2)
-	
+
 	rospy.loginfo ("Bag file opened.")
-	
+
 	rospy.loginfo("Scanning topics...")
-	
+
 	infoDict = yaml.load(subprocess.Popen(['rosbag', 'info', '--yaml', rosbagFile], stdout=subprocess.PIPE).communicate()[0])
-		
+
 	#we now have all of the topics contained in infoDict. We need to run through these and run the data extract script.
-	for ii in range(len(infoDict['topics'])):		
-		topicType = infoDict['topics'][ii]['type']	
-		topicName = infoDict['topics'][ii]['topic']		
+	for ii in range(len(infoDict['topics'])):
+		topicType = infoDict['topics'][ii]['type']
+		topicName = infoDict['topics'][ii]['topic']
 		#is this an processable topic?
 		rospy.loginfo("Found topic " + topicName + " of type " + topicType)
 		process = False
-													
+
 		for object in allowedTopics:
 			if object == topicType:
 				process = True
-				break									
-		
+				break
+
 		if process == True:
 			rospy.loginfo("Processing topic...")
 			rospy.loginfo("----------------------- Starting TOPIC_EXTRACT.PY for %s --------------------------"%topicName)
-			fileName =  topicName.replace("/", "-")			
-			commandLine = "rosrun data_extraction extract_topic.py -b " + rosbagFile + " -o " + outDir + "/" + fileName + ".csv" + " -t " + topicName		
+			fileName =  topicName.replace("/", "-")
+			fileName=fileName[1:]
+			commandLine = "rosrun ros_csv_extraction extract_topic.py -b " + rosbagFile + " -o " + outDir + "/" + fileName + ".csv" + " -t " + topicName
 			os.system(commandLine)
 			rospy.loginfo("----------------------- Finished TOPIC_EXTRACT.PY for %s --------------------------"%topicName)
 		else:
 			rospy.loginfo("Topic Type not supported.")
-														 
-	#Summarise for user								    		
+
+	#Summarise for user
 	bag.close()
 	rospy.loginfo("Completed for all compatible topics.")
-	
+
 main()
