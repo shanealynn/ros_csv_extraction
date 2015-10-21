@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 
 import roslib
-roslib.load_manifest('data_extraction')
 import rospy
 import rosbag
-import cv
+import cv2
 from cv_bridge import CvBridge, CvBridgeError
 #from sensor_msgs.msg import Image
 import csv		#writing CV files.
@@ -174,6 +173,7 @@ def getColumns(t, msg, imageFile = ""):
 
 
 def main():
+	rospy.init_node('extract_topic', log_level=rospy.DEBUG)
 	rospy.loginfo("Processing input arguments:")
 	try:
 		opts, extraparams = getopt.getopt(sys.argv[1:], "o:b:t:") #start at the second argument.
@@ -251,14 +251,14 @@ def main():
 			try:
 				#switchs between image encoding types
 				#print _img_encoding
-				cvImage = bridge.imgmsg_to_cv(msg)
+				cvImage = bridge.imgmsg_to_cv2(msg)
 			except CvBridgeError, err:
 				print err
 			imfileName =  topic.replace("/", "-")
 			imfileName = imfileName[1:]
 			imageFile = imfileName+'-Image_%.4d'%count
 			saveFileName = str(outDir)+"/"+imageFile+".png"
-			cv.SaveImage(saveFileName, cvImage)
+			cv2.imwrite(saveFileName, cvImage)
 
 
 		#write the columns or image to the file/folder.
