@@ -153,8 +153,8 @@ include_directories(
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
 install(PROGRAMS
-  src/extract_all.py
-  src/extract_topic.py
+  src/extract_all
+  src/extract_topic
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
