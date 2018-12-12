@@ -16,9 +16,9 @@
      * nav_msgs/Odometry
 
      1.) Extract all compatible topics in a bag file
-    rosrun data_extract extract_all.py -b path_to_bag_file -o path_to_output_dir
+    rosrun data_extract extract_all -b path_to_bag_file -o path_to_output_dir
      2.) Extract a single topic
-    rosrun data_extraction extract_topic.py -b path_to_bag_file -o path_to_output_csv_file -t topic_name
+    rosrun data_extraction extract_topic -b path_to_bag_file -o path_to_output_csv_file -t topic_name
 
       The extraction tool will only extract topics of the types listed above.
 

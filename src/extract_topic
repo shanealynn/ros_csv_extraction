@@ -14,7 +14,7 @@ import getopt 	#used to parse arguments
 
 def usage():
  	print " -----------------------------------  USAGE:  -------------------------------------------------"
- 	print " rosrun data_extraction extract_topic.py -b bag_file_name -o output_file_name -t topic_name"
+ 	print " rosrun data_extraction extract_topic -b bag_file_name -o output_file_name -t topic_name"
  	print ""
  	print "  bag_file_name - path to ros .bag file containing ROS records"
  	print "  output_file_name - full path to csv file to save records to. If an image topic is specified"

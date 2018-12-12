@@ -10,7 +10,7 @@ import subprocess, yaml #required to check bag file contents
 
 def usage():
  	print " -----------------------------------  USAGE:  -------------------------------------------------"
- 	print " rosrun data_extraction extract_all.py -b rosbag_file_name -o output_dir_name"
+ 	print " rosrun data_extraction extract_all -b rosbag_file_name -o output_dir_name"
  	print ""
  	print " This code will extract all supported message types from the specified rosbag file. "
  	print ""
@@ -92,7 +92,7 @@ def main():
 			rospy.loginfo("----------------------- Starting TOPIC_EXTRACT.PY for %s --------------------------"%topicName)
 			fileName =  topicName.replace("/", "-")
 			fileName=fileName[1:]
-			commandLine = "rosrun ros_csv_extraction extract_topic.py -b " + rosbagFile + " -o " + outDir + "/" + fileName + ".csv" + " -t " + topicName
+			commandLine = "rosrun ros_csv_extraction extract_topic -b " + rosbagFile + " -o " + outDir + "/" + fileName + ".csv" + " -t " + topicName
 			os.system(commandLine)
 			rospy.loginfo("----------------------- Finished TOPIC_EXTRACT.PY for %s --------------------------"%topicName)
 		else:
